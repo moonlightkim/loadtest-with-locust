@@ -15,4 +15,4 @@ def ggg(environment, **kwargs):
 
 @events.init.add_listener
 def fff(environment, **kwargs):
-    pass
+    print('===init in 01_....')

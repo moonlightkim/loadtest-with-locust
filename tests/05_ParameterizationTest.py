@@ -4,12 +4,13 @@ import random
 
 # How we can dynamically manipulate sets of input data
 
-# Example server is mcportal. Use json data
+# Example server is mcportal. Use json data from token.json to get tokens to access protected route.
 class GetMeUser(HttpUser):
     host = 'http://localhost:33380/api/v32'
 
-    def __init__(self, *args):
-        super().__init__(*args)
+    # Read token data on start
+    def on_start(self):
+        print('== on start ==')
         self.tokendata = readjson('/Users/moonlight/Desktop/loadtest-with-locust/tests/data/token.json').tokens
 
     @task
@@ -19,3 +20,6 @@ class GetMeUser(HttpUser):
 
         print('===Auth Token=== ', tokendata[idx])
         self.client.get('/users/me', headers= {"Authorization": f"Bearer {tokendata[idx]}"})
+ 
+    def on_stop(self):
+        print('== on STOP ==')
